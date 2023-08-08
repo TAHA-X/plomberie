@@ -719,14 +719,14 @@ $services = $services->fetchAll();
     <div class="footer-top">
       <div class="container" id="foorter-container">
         <div class="row">
-          <div class="fixed-btn">
-            <a href="mailto:hvnetplomberiemaroc@gmail.com"><i class="fas fa-comment-alt" aria-hidden="true"></i></a>
+        <div class="fixed-btn">
+            <a href="mailto:<?php echo $info["email"]; ?>"><i class="fas fa-comment-alt" aria-hidden="true"></i></a>
           </div>
           <div class="fixed-btn1">
-            <a href="tel:+212627078073"><i class="fa fa-phone" aria-hidden="true"></i></a>
+            <a href="tel:+212<?php echo $info["Tel"]; ?>"><i class="fa fa-phone" aria-hidden="true"></i></a>
           </div>
           <div class="fixed-btn2">
-            <a href="https://api.whatsapp.com/send?phone=0627078073"><i class="fa-brands fa-whatsapp" style="color: #FFF;" aria-hidden="true"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=<?php echo $info["Tel"]; ?>"><i class="fa-brands fa-whatsapp" style="color: #FFF;" aria-hidden="true"></i></a>
           </div>
 
           <!-- insertion de l'élément fixe a gauche -->

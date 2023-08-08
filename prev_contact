@@ -337,7 +337,18 @@ $services = $services->fetchAll();
                                    color: #6c757d;  width: 100%;
                                    height: 40px; " required="">
                                                  <option value='' disabled selected hidden>Choisi la Ville</option>
-                                              
+                                              <?php
+                                                    $query =
+                                                       'SELECT distinct id,libVille from ville order by libVille asc';
+                                                    $results = mysqli_query($conn, $query);
+                                                    while ($rows = mysqli_fetch_assoc(@$results)) { ?>
+                                                 <option value="<?php echo $rows[
+                                                          'id'
+                                                          ]; ?>">
+                                                    <?php echo $rows['libVille']; ?>
+                                                 </option>
+                                                 <?php }
+                                                    ?> 
                                               </select>
                                            </div>
                                            <div class="inputAndLabelCon">
@@ -369,7 +380,18 @@ $services = $services->fetchAll();
                                    color: #6c757d;  width: 100%;
                                    height: 40px; " required="">
                                                  <option value='' disabled selected hidden>Choisi le type de local</option>
-                                                
+                                                 <?php
+                                                    $query =
+                                                       'SELECT distinct id,LibtypeLocal FROM typelocal';
+                                                    $results = mysqli_query($conn, $query);
+                                                    while ($rows = mysqli_fetch_assoc(@$results)) { ?>
+                                                 <option value="<?php echo $rows[
+                                                          'id'
+                                                          ]; ?>">
+                                                    <?php echo $rows['LibtypeLocal']; ?>
+                                                 </option>
+                                                 <?php }
+                                                    ?>
                                               </select>
                                            </div>
                          
@@ -382,7 +404,18 @@ $services = $services->fetchAll();
                                    color: #6c757d;  width: 100%;
                                    height: 40px; " id="pr">
                                                  <option value='' disabled selected hidden>Choisi le Sujet</option>
-                                             
+                                                 <?php
+                                                    $query =
+                                                       "SELECT distinct id,libelle FROM sujet where typ='Particulier'";
+                                                    $results = mysqli_query($conn, $query);
+                                                    while ($rows = mysqli_fetch_assoc(@$results)) { ?>
+                                                 <option value="<?php echo $rows[
+                                                          'id'
+                                                          ]; ?>">
+                                                    <?php echo $rows['libelle']; ?>
+                                                 </option>
+                                                 <?php }
+                                                    ?>
                                               </select>
                                            </div>
                          
@@ -395,7 +428,18 @@ $services = $services->fetchAll();
                                    color: #6c757d;  width: 100%;
                                    height: 40px; " id="pf">
                                                  <option value='' disabled selected hidden>Choisi le Sujet</option>
-                                                 
+                                                 <?php
+                                                    $query =
+                                                       "SELECT distinct id,libelle FROM sujet where typ='Professionnel'";
+                                                    $results = mysqli_query($conn, $query);
+                                                    while ($rows = mysqli_fetch_assoc(@$results)) { ?>
+                                                 <option value="<?php echo $rows[
+                                                          'id'
+                                                          ]; ?>">
+                                                    <?php echo $rows['libelle']; ?>
+                                                 </option>
+                                                 <?php }
+                                                    ?>
                                               </select>
                                            </div>
                          
@@ -474,7 +518,91 @@ $services = $services->fetchAll();
                                            <button id="sendMessageBtn" style="color:#fff; width: 100% ; background-color:#000; font-weight:bold"
                                               name="sendEmailSubBtn">ENVOYER</button>
                          
-                                           
+                                           <?php
+                                              if (isset($_POST['sendEmailSubBtn'])) {
+                                                 $eml = test_input($_POST['senderEmail']);
+                                                 $motex = 'http';
+                                                 $arobax = '@';
+                                                 if ($Subject1 != '' && $Subject1 != '5') {
+                                                    $query = "SELECT libelle FROM sujet where id='$Subject1'";
+                                                    $results = mysqli_query($conn, $query);
+                                                    while ($rows = mysqli_fetch_assoc(@$results)) {
+                                                       $vlSubject1 = $rows['libelle'];
+                                                    }
+                                                    $a = $vlSubject1;
+                                                 } elseif ($Subject1 == '5') {
+                                                    $a = $Subject3;
+                                                 }
+                         
+                                                 if ($Subject2 != '' && $Subject2 != '10') {
+                                                    $query = "SELECT libelle FROM sujet where id='$Subject2'";
+                                                    $results = mysqli_query($conn, $query);
+                                                    while ($rows = mysqli_fetch_assoc(@$results)) {
+                                                       $vlSubject2 = $rows['libelle'];
+                                                    }
+                                                    $a = $vlSubject2;
+                                                 } elseif ($Subject2 == '10') {
+                                                    $a = $Subject3;
+                                                 }
+                         
+                                                 if (
+                                                    !empty($_POST['senderName']) &&
+                                                    !empty($_POST['senderVille']) &&
+                                                    !empty($_POST['senderTel']) &&
+                                                    !empty($_POST['senderEmail']) &&
+                                                    !empty($_POST['ProOrPar']) &&
+                                                    !empty($_POST['senderMessage']) &&
+                                                    $a != '' &&
+                                                    filter_var($eml, FILTER_VALIDATE_EMAIL) &&
+                                                    preg_match('/^[0-9]{10}/', $Tel) &&
+                                                    strpos($Message, $motex) === false &&
+                                                    strpos($Message, $arobax) === false
+                                                 ) {
+                                                    $sqls = "INSERT INTO contact(nomprenom,ville,Tel,email,typlocal,sujet,messag) VALUES ('$Name','$Ville','$Tel','$Email','$typ','$a','$Message')";
+                                                    if (mysqli_query($conn, $sqls)) {
+                                                       $query = "SELECT libVille from ville where id='$Ville'";
+                                                       $results = mysqli_query($conn, $query);
+                                                       while ($rows = mysqli_fetch_assoc(@$results)) {
+                                                          $vlVille = $rows['libVille'];
+                                                       }
+                                                       $query = "SELECT LibtypeLocal FROM typelocal where id='$typ'";
+                                                       $results = mysqli_query($conn, $query);
+                                                       while ($rows = mysqli_fetch_assoc(@$results)) {
+                                                          $vltyp = $rows['LibtypeLocal'];
+                                                       }
+                                                       /***************send email**********************/
+                                                       $to = 'hvnet@index.php';
+                                                       $subject = 'DEMANDE DE CONTACT HVNET PLOMBERIE';
+                                                       $headers = 'From: HVNET PLOMBERIE';
+                                                       $cntsendmail = "
+                                                                   Name          : $Name
+                                                                   Ville         : $vlVille
+                                                                   Tel           : $Tel
+                                                                   Email         : $Email
+                                                                   type de local : $vltyp
+                                                                   Sujet         : $a
+                                                                   Message       : $Message
+                                                               ";
+                                                       mail($to, $subject, $cntsendmail, $headers);
+                                                       /***************send email*********************/
+                                                       echo '<script>swal("Message envoyé avec succès!", "votre message a été bien envoyer, notre service concerné prendra en contact selon votre disponibilité!", "success");</script>';
+                                                    } else {
+                                                       echo '<script>swal("Message envoyé échoue!", "Votre message non envoyer, veillez remplir tout les champs!", "error");</script>';
+                                                    }
+                                                    mysqli_close($conn);
+                                                 } else {
+                                                    echo '<script>swal("Message envoyé échoue!", "Votre message non envoyerveillez remplir tout les champs!", "error");</script>';
+                                                 }
+                                              }
+                                              function test_input($data)
+                                              {
+                                                 $data = trim($data);
+                                                 $data = stripslashes($data);
+                                                 $data = htmlspecialchars($data);
+                                                 return $data;
+                                              }
+                                              ?>
+                         
                                         </div>
                                      </form>
 
@@ -496,27 +624,28 @@ $services = $services->fetchAll();
                                         <li>
                                             <i class="icon-map-marker"></i>
                                             <p>
-                                                <strong>Addresse:</strong> <?php echo $info["adresse"]; ?> <br>
+                                                <strong>Addresse:</strong> 53 Rue El Bakri, Casablanca
+                                                20110 <br>
                                             </p>
 
                                         </li>
                                         <li>
                                             <i class="icon-phone"></i>
                                             <p>
-                                                <strong>Téléphone:</strong>+212 <?php echo $info["Tel"]; ?>
+                                                <strong>Téléphone:</strong>+212 615-599-092
                                             </p>
                                         </li>
                                         <li>
                                             <i class="icon-phone"></i>
                                             <p>
-                                                <strong>Fixe:</strong>+212 <?php echo $info["Tel"]; ?>
+                                                <strong>Fixe:</strong>+212 615-599-092
                                             </p>
                                         </li>
                                         <li>
                                             <i class="icon-envelope"></i>
                                             <p>
                                                 <strong>Email:</strong><a
-                                                    href="mailto:<?php echo $info["email"]; ?>"><?php echo $info["email"]; ?>
+                                                    href="mailto:hvnet.plomberie.maroc@gmail.com">hvnet.plomberie.maroc@gmail.com
                                                 </a>
                                             </p>
                                         </li>
@@ -525,7 +654,7 @@ $services = $services->fetchAll();
                                 <div class="contact-info widget">
                                     <h3 class="title">Heures de travail</h3>
                                     <ul>
-                                        <li><i class="icon-time"> </i><?php echo $info["temps_travail"]; ?></li>
+                                        <li><i class="icon-time"> </i>24H/24 et 7J/7</li>
 
                                     </ul>
                                 </div>
@@ -533,18 +662,19 @@ $services = $services->fetchAll();
                                     <h4 class="title">Societe de Plomberie à casablanca</h4>
 
                                     <ul class="check-list why">
-                                     
+                                        <li><a href="reparation-fuite-eau-casablanca.html">Reparation fuite d'eau à Casablanca</a></li>
+                                        <li><a href ="remplacement-chauffe-eau-electrique-casablanca.html">Chauffe eau electrique à Casablanca</a></li>
+                                        <li><a href ="debouchage-wc-casablanca.html">Debouchage WC à Casablanca</a></li>
+                                        <li><a href ="broyeur-casablanca.html">Broyeur à Casablanca</a></li>
+                                        <li><a href ="debouchage-machine-laver-casablanca.html">Debouchage machine à laver à casablanca</a></li>
+                                        <li><a href ="depannage-plomberie-casablanca.html">Depannage plomberie à casablanca</a></li>
+                                        <li><a href ="debouchage-canalisation-casablanca.html">Debouchage canalisation à casablanca</a></li>
+                                        <li><a href ="remplacement-robinet-casablanca.html">Remplacement robinet à casablanca</a></li>
+                                        <li><a href ="ballon-eau-chaude-casablanca.html">Ballon d'eau chaude à casablanca</a></li>
+                                        <li><a href ="urgence-plombier-casablanca.html">Urgence plombier à casablanca</a></li>
+                                        <li><a href ="installation-chaudiere-casablanca.html">Installation chaudiere à casablanca</a></li>
+                                        <li><a href ="installation-plomberie-casablanca.html">Installation de plomberie à casablanca</a></li>
 
- <?php
-                        foreach($services as $service){
-                          ?>
-                        
-                              <li><a href="service.php?service=<?php echo $service["id"]; ?>"><?php echo $service["title"]; ?></a></li>
-
-                              
-                          <?php
-                        }
-                    ?>
                                         
 
 
