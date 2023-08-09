@@ -9,6 +9,53 @@ $info = $info->fetch();
 $services = $conn->prepare("SELECT * from services");
 $services->execute();
 $services = $services->fetchAll();
+/* send mail */
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+$success = "";
+if(isset($_POST["send"])){
+  // $email = $_POST["email"];
+  $name = $_POST["name"];
+  $tel = $_POST["tel"];
+  $ville = $_POST["ville"];
+  $local = $_POST["local"];
+  $email = $_POST["email"];
+  $message = "ville choisi : ".$ville."<br>"."local choisi :".$local."<br>".$_POST["message"];
+
+  // Load Composer's autoloader
+  require 'vendor/autoload.php';
+  $mail = new PHPMailer(true);
+  // Import PHPMailer classes into the global namespace
+
+  try {
+    // Server settings
+  //  $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      
+    $mail->isSMTP();                                            
+    $mail->Host       = 'smtp.gmail.com';                     
+    $mail->SMTPAuth   = true;                                   
+    $mail->Username   = 'techchoual7@gmail.com';                
+    $mail->Password   = 'kkpaacfzezrlajxz';                                  
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;        
+    $mail->Port       = 587;                                   
+
+    // Recipients
+   $mail->setFrom($_POST["email"], $name);
+    $mail->addAddress("techchoual7@gmail.com", "plomberie maroc");
+    // Add more recipients if needed
+
+    // Content
+    $mail->isHTML(true);                                  
+    $mail->Subject = 'Client Contact - Plomberie App '.$name;
+    $mail->Body    = $message;
+    if($mail->send()){
+        $success = "message sent succesfuly";
+    }
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -250,6 +297,13 @@ $services = $services->fetchAll();
 
 
                                 <div class="col-sm-8">
+                                  <?php
+                                     if($success!=""){
+                                         ?>
+                                            <div class="alert alert-success"><?php echo $success; ?></div>
+                                         <?php
+                                     }
+                                  ?>
                                     <form method="POST">
                                         <?php
                                         //    $servername = 'localhost';
@@ -261,67 +315,67 @@ $services = $services->fetchAll();
                                         //       die('Connection failed: ' . mysqli_connect_error());
                                         //    }
                                     
-                                           $sqls = '';
+                                          //  $sqls = '';
                          
-                                           $Name = null;
-                                           $Ville = null;
-                                           $vlVille = null;
-                                           $Tel = null;
-                                           $Email = null;
-                                           $typ = null;
-                                           $vltyp = null;
-                                           $Subject1 = null;
-                                           $vlSubject1 = null;
-                                           $Subject2 = null;
-                                           $vlSubject2 = null;
-                                           $Subject3 = null;
-                                           $Message = null;
-                                           $a = null;
-                                           $eml = null;
-                                           $cntsendmail = null;
-                                           $motex = null;
-                                           $arobax = null;
+                                          //  $Name = null;
+                                          //  $Ville = null;
+                                          //  $vlVille = null;
+                                          //  $Tel = null;
+                                          //  $Email = null;
+                                          //  $typ = null;
+                                          //  $vltyp = null;
+                                          //  $Subject1 = null;
+                                          //  $vlSubject1 = null;
+                                          //  $Subject2 = null;
+                                          //  $vlSubject2 = null;
+                                          //  $Subject3 = null;
+                                          //  $Message = null;
+                                          //  $a = null;
+                                          //  $eml = null;
+                                          //  $cntsendmail = null;
+                                          //  $motex = null;
+                                          //  $arobax = null;
                          
-                                           if (isset($_POST['senderName'])) {
-                                              $Name = $_POST['senderName'];
-                                           }
+                                          //  if (isset($_POST['senderName'])) {
+                                          //     $Name = $_POST['senderName'];
+                                          //  }
                          
-                                           if (isset($_POST['senderVille'])) {
-                                              $Ville = $_POST['senderVille'];
-                                           }
+                                          //  if (isset($_POST['senderVille'])) {
+                                          //     $Ville = $_POST['senderVille'];
+                                          //  }
                          
-                                           if (isset($_POST['senderTel'])) {
-                                              $Tel = $_POST['senderTel'];
-                                           }
+                                          //  if (isset($_POST['senderTel'])) {
+                                          //     $Tel = $_POST['senderTel'];
+                                          //  }
                          
-                                           if (isset($_POST['senderEmail'])) {
-                                              $Email = $_POST['senderEmail'];
-                                           }
+                                          //  if (isset($_POST['senderEmail'])) {
+                                          //     $Email = $_POST['senderEmail'];
+                                          //  }
                          
-                                           if (isset($_POST['ProOrPar'])) {
-                                              $typ = $_POST['ProOrPar'];
-                                           }
+                                          //  if (isset($_POST['ProOrPar'])) {
+                                          //     $typ = $_POST['ProOrPar'];
+                                          //  }
                          
-                                           if (isset($_POST['messageSubject1'])) {
-                                              $Subject1 = $_POST['messageSubject1'];
-                                           }
+                                          //  if (isset($_POST['messageSubject1'])) {
+                                          //     $Subject1 = $_POST['messageSubject1'];
+                                          //  }
                          
-                                           if (isset($_POST['messageSubject2'])) {
-                                              $Subject2 = $_POST['messageSubject2'];
-                                           }
+                                          //  if (isset($_POST['messageSubject2'])) {
+                                          //     $Subject2 = $_POST['messageSubject2'];
+                                          //  }
                          
-                                           if (isset($_POST['messageSubject3'])) {
-                                              $Subject3 = $_POST['messageSubject3'];
-                                           }
+                                          //  if (isset($_POST['messageSubject3'])) {
+                                          //     $Subject3 = $_POST['messageSubject3'];
+                                          //  }
                          
-                                           if (isset($_POST['senderMessage'])) {
-                                              $Message = $_POST['senderMessage'];
-                                           }
-                                           ?>
+                                          //  if (isset($_POST['senderMessage'])) {
+                                          //     $Message = $_POST['senderMessage'];
+                                          //  }
+                                          //  ?>
                                         <div id="contactFormHolder">
                                            <div class="inputAndLabelCon">
                                               <label for="">Nom/Prenom <span class="necessary">*</span></label><br>
-                                              <input type="text" name="senderName" placeholder="Nom" style=" border: 1px solid rgb(10, 10, 10) !important;
+                                              <input type="text" name="name" placeholder="Nom" style=" border: 1px solid rgb(10, 10, 10) !important;
                                    font-family: arial;
                                    font-Weight: bold;
                                    font-size: 18px;
@@ -330,15 +384,89 @@ $services = $services->fetchAll();
                                            </div>
                                            <div class="inputAndLabelCon">
                                               <label for="">Ville <span class="necessary">*</span></label><br>
-                                              <select name="senderVille" id="vll" style=" border: 1px solid rgb(10, 10, 10) !important;
+                                              <select name="ville" id="vll" style=" border: 1px solid rgb(10, 10, 10) !important;
                                    font-family: arial;
                                    font-Weight: bold;
                                    font-size: 18px;
                                    color: #6c757d;  width: 100%;
                                    height: 40px; " required="">
                                                  <option value='' disabled selected hidden>Choisi la Ville</option>
-                                              
-                                              </select>
+                                                 <option value="agadir">Agadir</option>
+<option value="ait_melloul">Ait Melloul</option>
+<option value="ait_mohamed">Ait Mohamed</option>
+<option value="ait_yourir">Ait Yourir</option>
+<option value="al_hoceima">Al Hoceima</option>
+<option value="assilah">Assilah</option>
+<option value="azemmour">Azemmour</option>
+<option value="azrou">Azrou</option>
+<option value="beni_ansar">Beni Ansar</option>
+<option value="beni_mellal">Beni Mellal</option>
+<option value="ben_slimane">Ben Slimane</option>
+<option value="bouarfa">Bouarfa</option>
+<option value="boujdour">Boujdour</option>
+<option value="casablanca">Casablanca</option>
+<option value="chefchaouen">Chefchaouen</option>
+<option value="dar_bouazza">Dar Bouazza</option>
+<option value="demnate">Demnate</option>
+<option value="driouch">Driouch</option>
+<option value="el_hajeb">El Hajeb</option>
+<option value="el_jadida">El Jadida</option>
+<option value="el_kelaâ_des_srarhna">El Kelaâ des Sraghna</option>
+<option value="errachidia">Errachidia</option>
+<option value="essaouira">Essaouira</option>
+<option value="fes">Fes</option>
+<option value="fnideq">Fnideq</option>
+<option value="fquih_ben_salah">Fquih Ben Salah</option>
+<option value="guelmim">Guelmim</option>
+<option value="guercif">Guercif</option>
+<option value="imzouren">Imzouren</option>
+<option value="inezgane">Inezgane</option>
+<option value="jerada">Jerada</option>
+<option value="kasba_tadla">Kasba Tadla</option>
+<option value="kenitra">Kenitra</option>
+<option value="khemisset">Khemisset</option>
+<option value="khenifra">Khenifra</option>
+<option value="khouribga">Khouribga</option>
+<option value="ksar_el_kebir">Ksar el Kebir</option>
+<option value="laayoune">Laayoune</option>
+<option value="larache">Larache</option>
+<option value="lqliaa">Lqliaa</option>
+<option value="marrakech">Marrakech</option>
+<option value="martil">Martil</option>
+<option value="meknes">Meknes</option>
+<option value="midar">Midar</option>
+<option value="mohammedia">Mohammedia</option>
+<option value="moulay_bousselham">Moulay Bousselham</option>
+<option value="nador">Nador</option>
+<option value="ouarzazate">Ouarzazate</option>
+<option value="ouazzane">Ouazzane</option>
+<option value="oued_zem">Oued Zem</option>
+<option value="oujda">Oujda</option>
+<option value="rabat">Rabat</option>
+<option value="safi">Safi</option>
+<option value="sale">Sale</option>
+<option value="sefrou">Sefrou</option>
+<option value="settat">Settat</option>
+<option value="sidi_bennour">Sidi Bennour</option>
+<option value="sidi_ifni">Sidi Ifni</option>
+<option value="sidi_kacem">Sidi Kacem</option>
+<option value="sidi_slimane">Sidi Slimane</option>
+<option value="skhirat">Skhirat</option>
+<option value="souk_el_arbaa">Souk el Arbaa</option>
+<option value="souk_larbaa">Souk Larbaa</option>
+<option value="souq_el_had">Souq el Had</option>
+<option value="tan_tan">Tan Tan</option>
+<option value="tangier">Tangier</option>
+<option value="taounate">Taounate</option>
+<option value="taroudannt">Taroudannt</option>
+<option value="taza">Taza</option>
+<option value="tetouan">Tetouan</option>
+<option value="tifelt">Tifelt</option>
+<option value="tiznit">Tiznit</option>
+<option value="youssoufia">Youssoufia</option>
+<option value="zagora">Zagora</option>
+</select>
+
                                            </div>
                                            <div class="inputAndLabelCon">
                                               <label for="">Tél <span class="necessary">*</span></label><br>
@@ -347,12 +475,12 @@ $services = $services->fetchAll();
                                    font-Weight: bold;
                                    font-size: 18px;
                                    color: #6c757d;  width: 100%;
-                                   height: 40px; " type="tel" name="senderTel" placeholder="Tél" maxlength="10"
+                                   height: 40px; " type="tel" name="tel" placeholder="Tél" maxlength="10"
                                                  onkeypress="return onlyNumberKey(event)" required="">
                                            </div>
                                            <div class="inputAndLabelCon">
                                               <label for="">Email <span class="necessary">*</span></label><br>
-                                              <input style=" border: 1px solid rgb(10, 10, 10) !important;
+                                              <input name="email" style=" border: 1px solid rgb(10, 10, 10) !important;
                                    font-family: arial;
                                    font-Weight: bold;
                                    font-size: 18px;
@@ -362,15 +490,50 @@ $services = $services->fetchAll();
                          
                                            <div class="inputAndLabelCon" id="rt">
                                               <label>Type de local<span class="necessary">*</span></label><br>
-                                              <select name="ProOrPar" id="TypeLocal" style=" border: 1px solid rgb(10, 10, 10) !important;
+                                              <select name="local" id="TypeLocal" style=" border: 1px solid rgb(10, 10, 10) !important;
                                    font-family: arial;
                                    font-Weight: bold;
                                    font-size: 18px;
                                    color: #6c757d;  width: 100%;
                                    height: 40px; " required="">
                                                  <option value='' disabled selected hidden>Choisi le type de local</option>
-                                                
-                                              </select>
+                                                 <option value="immeuble">Immeuble</option>
+<option value="bureau">Bureau</option>
+<option value="villa">Villa</option>
+<option value="appartement">Appartement</option>
+<option value="magasin">Magasin</option>
+<option value="usine">Usine</option>
+<option value="restaurant">Restaurant</option>
+<option value="hôtel">Hôtel</option>
+<option value="école">École</option>
+<option value="hôpital">Hôpital</option>
+<option value="centre_commercial">Centre commercial</option>
+<option value="entrepôt">Entrepôt</option>
+<option value="cinéma">Cinéma</option>
+<option value="salle_de_sport">Salle de sport</option>
+<option value="terrain_sport">Terrain de sport</option>
+<option value="banque">Banque</option>
+<option value="pharmacie">Pharmacie</option>
+<option value="agence">Agence</option>
+<option value="maison_retraite">Maison de retraite</option>
+<option value="garage">Garage</option>
+<option value="musée">Musée</option>
+<option value="bibliothèque">Bibliothèque</option>
+<option value="clinique">Clinique</option>
+<option value="laboratoire">Laboratoire</option>
+<option value="studio">Studio d'enregistrement</option>
+<option value="salle_de_réunion">Salle de réunion</option>
+<option value="piscine">Piscine</option>
+<option value="stade">Stade</option>
+<option value="aéroport">Aéroport</option>
+<option value="gare">Gare</option>
+<option value="place_publique">Place publique</option>
+<option value="église">Église</option>
+<option value="mosquée">Mosquée</option>
+<option value="synagogue">Synagogue</option>
+<option value="temple">Temple</option>
+</select>
+
                                            </div>
                          
                                            <div class="inputAndLabelCon" id="Part">
@@ -465,14 +628,14 @@ $services = $services->fetchAll();
                                    font-Weight: bold;
                                    font-size: 18px;
                                    color: #6c757d;  width: 100%;
-                                   height: 100px; " type="text" name="senderMessage" placeholder="Message" required=""></textarea><br><br>
+                                   height: 100px; " type="text" name="message" placeholder="Message" required=""></textarea><br><br>
                          
                                            </div>
                          
                          
                          
                                            <button id="sendMessageBtn" style="color:#fff; width: 100% ; background-color:#000; font-weight:bold"
-                                              name="sendEmailSubBtn">ENVOYER</button>
+                                              name="send">ENVOYER</button>
                          
                                            
                                         </div>
@@ -556,7 +719,7 @@ $services = $services->fetchAll();
                                         style="background-color: #FBB216; border-radius: 50px;font-size: 13px;margin-left: 0px;width: 200px; height: 50px;">
                                         <span onmouseover="hover()" onmouseout="out()" class="icon-phone"
                                             id="icon-phone" style="color: rgb(255, 255, 255);"></span>
-                                            Tel: <a href="Tel:+2120615599092"> <strong> +212 615-599-092</strong></a> </button>
+                                            Tel: <a href="Tel:+212<?php echo $info["Tel"]; ?>"> <strong> +212 <?php echo $info["Tel"]; ?></strong></a> </button>
                                 </div>
 
                             </div>
