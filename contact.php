@@ -305,73 +305,7 @@ if(isset($_POST["send"])){
                                      }
                                   ?>
                                     <form method="POST">
-                                        <?php
-                                        //    $servername = 'localhost';
-                                        //    $username = 'webagency_hvnet-plomberie';
-                                        //    $password = 'azerty@123';
-                                        //    $dbname = 'webagency_hvnet-plomberie';
-                                        //    $conn = mysqli_connect($servername, $username, $password, $dbname);
-                                        //    if (!$conn) {
-                                        //       die('Connection failed: ' . mysqli_connect_error());
-                                        //    }
                                     
-                                          //  $sqls = '';
-                         
-                                          //  $Name = null;
-                                          //  $Ville = null;
-                                          //  $vlVille = null;
-                                          //  $Tel = null;
-                                          //  $Email = null;
-                                          //  $typ = null;
-                                          //  $vltyp = null;
-                                          //  $Subject1 = null;
-                                          //  $vlSubject1 = null;
-                                          //  $Subject2 = null;
-                                          //  $vlSubject2 = null;
-                                          //  $Subject3 = null;
-                                          //  $Message = null;
-                                          //  $a = null;
-                                          //  $eml = null;
-                                          //  $cntsendmail = null;
-                                          //  $motex = null;
-                                          //  $arobax = null;
-                         
-                                          //  if (isset($_POST['senderName'])) {
-                                          //     $Name = $_POST['senderName'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['senderVille'])) {
-                                          //     $Ville = $_POST['senderVille'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['senderTel'])) {
-                                          //     $Tel = $_POST['senderTel'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['senderEmail'])) {
-                                          //     $Email = $_POST['senderEmail'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['ProOrPar'])) {
-                                          //     $typ = $_POST['ProOrPar'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['messageSubject1'])) {
-                                          //     $Subject1 = $_POST['messageSubject1'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['messageSubject2'])) {
-                                          //     $Subject2 = $_POST['messageSubject2'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['messageSubject3'])) {
-                                          //     $Subject3 = $_POST['messageSubject3'];
-                                          //  }
-                         
-                                          //  if (isset($_POST['senderMessage'])) {
-                                          //     $Message = $_POST['senderMessage'];
-                                          //  }
-                                          //  ?>
                                         <div id="contactFormHolder">
                                            <div class="inputAndLabelCon">
                                               <label for="">Nom/Prenom <span class="necessary">*</span></label><br>
