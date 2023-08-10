@@ -21,7 +21,7 @@ if(isset($_POST["send"])){
   $ville = $_POST["ville"];
   $local = $_POST["local"];
   $email = $_POST["email"];
-  $message = "ville choisi : ".$ville."<br>"."local choisi :".$local."<br>".$_POST["message"];
+  $message = "ville choisi : ".$ville."<br>"."local choisi : ".$local."<br>"."tel : ".$_POST["tel"]."<br>"."message : ".$_POST["message"];
 
   // Load Composer's autoloader
   require 'vendor/autoload.php';
@@ -40,13 +40,13 @@ if(isset($_POST["send"])){
     $mail->Port       = 587;                                   
 
     // Recipients
-   $mail->setFrom($_POST["email"], $name);
-    $mail->addAddress("techchoual7@gmail.com", "plomberie maroc");
+   $mail->setFrom($email, $name);
+    $mail->addAddress('techchoual7@gmail.com', "plomberie maroc");
     // Add more recipients if needed
 
     // Content
     $mail->isHTML(true);                                  
-    $mail->Subject = 'Client Contact - Plomberie App '.$name;
+    $mail->Subject = 'Client Contact - par mr/mm : '.$name;
     $mail->Body    = $message;
     if($mail->send()){
         $success = "message sent succesfuly";
@@ -180,7 +180,6 @@ if(isset($_POST["send"])){
                 <li class="facebook"><a href="<?php echo $info['facebook']; ?>"><i class="icon-facebook"></i></a></li>
                 <li class="twitter"><a href="<?php echo $info['twitter']; ?>"><i class="icon-twitter"></i></a></li>
                 <li class="linkedin"><a href="<?php echo $info['linkedin']; ?>"><i class="icon-linkedin"></i></a></li>
-                <li class="rss"><a href="#"><i class="icon-rss"></i></a></li>
               </ul>
               <div id="search-form" class="pull-right">
                 <form action="#" method="get">

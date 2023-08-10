@@ -134,7 +134,6 @@ $blogs = $blogs->fetchAll();
                 <li class="facebook"><a href="<?php echo $info['facebook']; ?>"><i class="icon-facebook"></i></a></li>
                 <li class="twitter"><a href="<?php echo $info['twitter']; ?>"><i class="icon-twitter"></i></a></li>
                 <li class="linkedin"><a href="<?php echo $info['linkedin']; ?>"><i class="icon-linkedin"></i></a></li>
-                <li class="rss"><a href="#"><i class="icon-rss"></i></a></li>
               </ul>
               <div id="search-form" class="pull-right">
                 <form action="#" method="get">
